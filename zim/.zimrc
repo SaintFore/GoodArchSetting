@@ -58,3 +58,6 @@ zmodule romkatv/powerlevel10k
 
 # fzf模块
 zmodule fzf
+
+# 添加ssh模块自动管理ssh-agent
+zmodule ssh
