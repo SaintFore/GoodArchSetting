@@ -1,0 +1,11 @@
+# 忽略.env
+.env
+*.env
+
+# 忽略历史记录
+.bash_history
+.zsh_history
+
+# 忽略ssh与gpg密钥
+.ssh/
+.gnupg/
