@@ -150,3 +150,6 @@ else
 fi
 unset __mamba_setup
 # <<< mamba initialize <<<
+
+export NVM_DIR="$HOME/.nvm"
+source /usr/share/nvm/nvm.sh
