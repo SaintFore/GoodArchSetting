@@ -153,3 +153,9 @@ unset __mamba_setup
 
 export NVM_DIR="$HOME/.nvm"
 source /usr/share/nvm/nvm.sh
+
+# llm api
+# for claude code
+if [ -f ~/.zshrc.local ]; then
+  source ~/.zshrc.local
+fi
