@@ -274,6 +274,9 @@ spawn-at-startup "waybar"
 // 壁纸软件
 spawn-at-startup "swww-daemon"
 
+// 通知
+spawn-at-startup "mako"
+
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
