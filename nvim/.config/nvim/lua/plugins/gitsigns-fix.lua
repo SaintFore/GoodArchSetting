@@ -1,4 +1,4 @@
 return {
   "gitsigns.nvim",
-  enabled = true,
+  enabled = false,
 }
