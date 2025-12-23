@@ -72,6 +72,20 @@ return {
       servers = {
         -- pyright will be automatically installed with mason and loaded with lspconfig
         pyright = {},
+        lua_ls = {
+          settings = {
+            Lua = {
+              workspace = {
+                library = {
+                  vim.env.VIMRUNTIME,
+                  vim.fn.expand("$VIMRUNTIME/lua"),
+                  vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
+                },
+              },
+              telemetry = { enable = false },
+            },
+          },
+        },
       },
     },
   },
