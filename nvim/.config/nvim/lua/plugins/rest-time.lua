@@ -1,6 +1,5 @@
 return {
-  dir = "~/Code/lua-nvim/rest-time/",
-  lazy = false,
+  "SaintFore/rest-time",
   config = function()
     require("rest_time").setup({})
   end,
