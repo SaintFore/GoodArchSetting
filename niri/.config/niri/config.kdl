@@ -291,6 +291,9 @@ spawn-at-startup "swww-daemon"
 // 通知
 spawn-at-startup "mako"
 
+// 护眼
+spawn-at-startup "wlsunset" "-l" "39.9" "-L" "116.4" "-t" "3500" "-T" "5500"
+
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
