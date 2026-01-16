@@ -1,0 +1,12 @@
+# 忽略构建产物
+build/
+*.userdb/
+sync/
+
+# 忽略自动生成的ID记录
+installation.yaml
+user.yaml
+
+# 忽略一些缓存
+*.bin
+*.out
