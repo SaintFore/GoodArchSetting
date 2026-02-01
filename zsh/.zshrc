@@ -159,3 +159,11 @@ source /usr/share/nvm/nvm.sh
 if [ -f ~/.zshrc.local ]; then
   source ~/.zshrc.local
 fi
+
+# pnpm
+export PNPM_HOME="/home/julien/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
