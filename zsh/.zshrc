@@ -169,3 +169,5 @@ esac
 # pnpm end
 
 export PATH="$HOME/Scripts:$PATH"
+
+export PATH="$HOME/go/bin:$PATH"
