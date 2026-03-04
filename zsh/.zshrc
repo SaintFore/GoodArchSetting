@@ -1,3 +1,8 @@
+# OPENSPEC:START
+# OpenSpec shell completions configuration
+fpath=("/home/julien/.zsh/completions" $fpath)
+# OPENSPEC:END
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -171,3 +176,4 @@ esac
 export PATH="$HOME/Scripts:$PATH"
 
 export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
