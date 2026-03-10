@@ -177,3 +177,6 @@ export PATH="$HOME/Scripts:$PATH"
 
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+eval "$(zoxide init zsh)"
+alias cd="z"
+alias cdi="zi"

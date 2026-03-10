@@ -294,6 +294,9 @@ spawn-at-startup "mako"
 // 护眼
 spawn-at-startup "wlsunset" "-l" "39.9" "-L" "116.4" "-t" "3500" "-T" "5500"
 
+// 提前开启foot
+spawn-at-startup "foot" "--server"
+
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
@@ -392,7 +395,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     // Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
     // Ctrl+Alt+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
-    Ctrl+Alt+T hotkey-overlay-title="打开foot终端" { spawn "foot"; }
+    Ctrl+Alt+T hotkey-overlay-title="打开foot终端" { spawn "footclient"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     // Mod+R hotkey-overlay-title="启动应用: fuzzel" { spawn "fuzzel"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: hyprlock" { spawn "hyprlock"; }
