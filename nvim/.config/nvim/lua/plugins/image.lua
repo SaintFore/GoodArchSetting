@@ -1,28 +1,23 @@
 return {
   {
     "3rd/image.nvim",
+    dependencies = { "vhyrro/luarocks.nvim" }, -- 自动处理 lua 依赖
     opts = {
-      backend = "kitty",
+      backend = "sixel",
       integrations = {
         markdown = {
           enabled = true,
           clear_in_insert_mode = false,
           download_remote_images = true,
-          only_render_image_at_cursor = false,
-          filetypes = { "markdown", "vimwiki", "quarto" }, -- 可以在这些文件里预览
-        },
-        neorg = {
-          enabled = true,
+          only_render_image_at_cursor = true, -- 建议开启，防止预览太多图导致卡顿
+          filetypes = { "markdown", "vimwiki", "quarto" },
         },
       },
       max_width = nil,
       max_height = nil,
-      max_width_window_percentage = 90,
-      max_height_window_percentage = 90,
-      window_overlap_clear_enabled = false, -- 如果发现图片闪烁可以设为 true
-      window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-      editor_only_render_when_focused = false, -- 失去焦点时是否保留图片
-      tmux_passthrough = true, -- 用 Tmux，必须开启透传
+      max_width_window_percentage = math.huge,
+      max_height_window_percentage = math.huge,
+      window_overlap_clear_enabled = true,
     },
   },
 }
