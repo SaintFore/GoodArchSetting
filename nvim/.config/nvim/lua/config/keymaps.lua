@@ -40,3 +40,15 @@ vim.keymap.set("n", "<leader>im", function()
     vim.notify("错误：找不到有效的图片路径。抓取到的内容为: " .. cursor_file, vim.log.levels.ERROR)
   end
 end, { desc = "智能图片预览" })
+
+vim.keymap.set("n", "<leader>it", function()
+  local line = vim.api.nvim_get_current_line()
+
+  if line:match("%- %[%s%]") then
+    line = line:gsub("%- %[%s%]", "- [x]")
+  elseif line:match("%- %[x%]") then
+    line = line:gsub("%- %[x%]", "- [ ]")
+  end
+
+  vim.api.nvim_set_current_line(line)
+end, { desc = "Toggle checkbox" })
