@@ -286,7 +286,7 @@ layout {
 spawn-at-startup "waybar"
 
 // 壁纸软件
-spawn-at-startup "swww-daemon"
+spawn-at-startup "awww-daemon"
 
 // 通知
 spawn-at-startup "mako"
