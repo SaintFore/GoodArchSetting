@@ -3,6 +3,11 @@ patch:
     - schema: double_pinyin_flypy
     - schema: kagiroi
 
+  menu:
+    page_size: 3 # 候选词个数
+    # alternative_select_labels: [①, ②, ③, ④, ⑤, ⑥, ⑦, ⑧, ⑨, ⑩] # 修改候选项标签
+    # alternative_select_keys: ASDFGHJKL  # 如编码字符占用数字键，则需另设选字键（注意在雾凇中，大写字母也作为编码了）
+
   __patch:
     key_binder/bindings/+:
       # 开启逗号句号翻页
