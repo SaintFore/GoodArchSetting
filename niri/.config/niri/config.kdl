@@ -107,11 +107,11 @@ output "eDP-1" {
 }
 output "HDMI-A-2" {
     // 保持当前分辨率和刷新率
-    mode "2560x1440@59.951"
+    mode "2560x1440@60.000"
     scale 1.25
     // 旋转 270 度（竖屏，顶部朝右）
-    transform "270"
-    position x=1536 y=-416
+    transform "normal"
+    position x=-1536 y=0
 }
 output "DP-1" {
     mode "1920x1080@60.000"
@@ -296,6 +296,9 @@ spawn-at-startup "wlsunset" "-l" "39.9" "-L" "116.4" "-t" "3500" "-T" "5500"
 
 // 提前开启foot
 spawn-at-startup "foot" "--server"
+
+// polkit前端
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
