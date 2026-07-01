@@ -25,6 +25,9 @@ fi
 
 # Remove older command from the history if a duplicate is to be added.
 setopt HIST_IGNORE_ALL_DUPS
+zshaddhistory() {
+  [[ ${#1} -lt 200 ]]
+}
 
 #
 # Input/output
@@ -82,7 +85,7 @@ WORDCHARS=${WORDCHARS//[\/]}
 
 # Disable automatic widget re-binding on each precmd. This can be set when
 # zsh-users/zsh-autosuggestions is the last module in your ~/.zimrc.
-ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+# ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
 # Customize the style that the suggestions are shown with.
 # See https://github.com/zsh-users/zsh-autosuggestions/blob/master/README.md#suggestion-highlight-style
@@ -177,11 +180,13 @@ export PATH="$HOME/Scripts:$PATH"
 
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="/home/julien/.bun/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # zoxide
 eval "$(zoxide init zsh)"
-alias cd="z"
-alias cdi="zi"
+# alias cd="z"
+# alias cdi="zi"
 
 # eza
 alias ls="eza"
