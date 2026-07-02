@@ -1,0 +1,22 @@
+# 设置剪贴板（方便在文档里复制内容到其他地方）
+set selection-clipboard clipboard
+set selection-notification false
+
+# 开启状态栏和搜索高亮
+set statusbar-h-padding 0
+set statusbar-v-padding 0
+set show-recent 5
+
+# 打开文档时默认适配宽度，不要整页缩小
+set adjust-open width
+
+# j/k 每次滚动距离，可以按手感调大/调小
+set scroll-step 300
+
+# 样式美化（类似 Gruvbox/Dark 风格）
+set default-bg                  "#282828"
+set default-fg                  "#ebdbb2"
+set statusbar-bg                "#504945"
+set statusbar-fg                "#ebdbb2"
+set inputbar-bg                 "#282828"
+set inputbar-fg                 "#fabd2f"
