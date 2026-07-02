@@ -1,0 +1,14 @@
+cc-switch-bin
+clash-party-bin
+localsend-bin
+micromamba-bin
+mongosh-bin
+netbird-bin
+paru
+paru-debug
+piclist-bin
+superproductivity-bin
+usql-bin
+visual-studio-code-bin
+waypaper
+zen-browser-bin
