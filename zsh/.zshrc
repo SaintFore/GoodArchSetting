@@ -176,11 +176,11 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-export PATH="$HOME/Scripts:$PATH"
+# export PATH="$HOME/Scripts:$PATH"
 
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="/home/julien/.bun/bin:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # zoxide

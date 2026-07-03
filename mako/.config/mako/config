@@ -26,7 +26,7 @@ anchor=top-right
 # 弹出时有音乐
 on-notify=exec paplay /usr/share/sounds/ocean/stereo/message-sent-instant.oga
 
-[app-name=trans]
+[app-name=translate-clipboard]
 anchor=center
 layer=overlay
 width=900
