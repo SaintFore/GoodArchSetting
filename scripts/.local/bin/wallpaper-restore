@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+external_output="${WALLPAPER_EXTERNAL_OUTPUT:-DP-1}"
+internal_output="${WALLPAPER_INTERNAL_OUTPUT:-eDP-1}"
+external_wallpaper="${WALLPAPER_EXTERNAL:-$HOME/Downloads/wallpapers/sky.jpg}"
+internal_wallpaper="${WALLPAPER_INTERNAL:-$HOME/Downloads/wallpapers/Maple Leaves Landscape GIF.gif}"
+
+awww img "$external_wallpaper" --outputs "$external_output"
+awww img "$internal_wallpaper" --outputs "$internal_output"

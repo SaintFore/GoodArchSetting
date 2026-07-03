@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+app_name="translate-clipboard"
+out="${TRANSLATION_LOG:-$HOME/notes/translations.md}"
+model="${DEEPSEEK_MODEL:-deepseek-v4-flash}"
+
+if [[ -r "$HOME/.config/deepseek/env" ]]; then
+  # shellcheck source=/dev/null
+  source "$HOME/.config/deepseek/env"
+elif [[ -r "$HOME/.zshrc.local" ]]; then
+  # Keep compatibility with the previous setup, where the API key lived here.
+  # shellcheck source=/dev/null
+  source "$HOME/.zshrc.local"
+fi
+
+api_key="${DEEPSEEK_API_KEY:-}"
+
+fail() {
+  local message="$1"
+  notify-send -a "$app_name" "DeepSeek 翻译失败" "$message" || true
+  printf 'translate-clipboard: %s\n' "$message" >&2
+  exit 1
+}
+
+require_command() {
+  command -v "$1" >/dev/null 2>&1 || fail "缺少命令: $1"
+}
+
+require_command wl-paste
+require_command wl-copy
+require_command jq
+require_command curl
+require_command notify-send
+
+[[ -n "$api_key" ]] || fail "环境变量 DEEPSEEK_API_KEY 为空"
+
+mkdir -p "$(dirname "$out")"
+
+src="$(
+  wl-paste --no-newline |
+    tr '\r\n\t' '   ' |
+    sed -E 's/[[:space:]]+/ /g; s/^ //; s/ $//'
+)"
+
+[[ -n "$src" ]] || fail "剪贴板为空"
+
+payload="$(
+  jq -n \
+    --arg model "$model" \
+    --arg src "$src" \
+    '{
+      model: $model,
+      temperature: 0.1,
+      messages: [
+        {
+          role: "system",
+          content: "你是数学和计算机教材翻译器。把英文翻译成自然中文，术语准确，不解释，不加多余内容。"
+        },
+        {
+          role: "user",
+          content: $src
+        }
+      ]
+    }'
+)"
+
+resp="$(
+  curl --fail-with-body -sS https://api.deepseek.com/chat/completions \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $api_key" \
+    -d "$payload"
+)" || fail "API 请求失败"
+
+dst="$(
+  printf '%s' "$resp" |
+    jq -r '.choices[0].message.content // empty' |
+    sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//'
+)"
+
+[[ -n "$dst" ]] || {
+  err="$(printf '%s' "$resp" | jq -r '.error.message // "API 没有返回译文"')"
+  fail "$err"
+}
+
+{
+  printf '\n--- %s ---\n' "$(date '+%F %T')"
+  printf 'SRC: %s\n' "$src"
+  printf 'DST: %s\n' "$dst"
+} >>"$out"
+
+printf '%s' "$dst" | wl-copy
+notify-send -a "$app_name" "DeepSeek 翻译" "$dst"

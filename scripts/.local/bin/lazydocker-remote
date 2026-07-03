@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+host="${1:-docker-1}"
+
+[[ -n "$host" ]] || {
+  printf 'lazydocker-remote: host cannot be empty\n' >&2
+  exit 1
+}
+
+exec env DOCKER_HOST="ssh://$host" lazydocker

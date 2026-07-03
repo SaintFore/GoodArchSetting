@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
+
+usage() {
+  echo "Usage: dotadd <package> <source-path>"
+  echo "Example:"
+  echo "  dotadd yazi ~/.config/yazi"
+  echo "  dotadd rime ~/.local/share/fcitx5/rime"
+  exit 1
+}
+
+[[ $# -eq 2 ]] || usage
+
+pkg="$1"
+src="${2/#\~/$HOME}"
+src="${src%/}"
+
+if [[ ! -e "$src" ]]; then
+  echo "Error: source does not exist: $src"
+  exit 1
+fi
+
+if [[ "$src" != "$HOME/"* ]]; then
+  echo "Error: source path must be inside \$HOME"
+  exit 1
+fi
+
+rel="${src#$HOME/}"
+dest="$DOTFILES/$pkg/$rel"
+
+if [[ -e "$dest" ]]; then
+  echo "Error: destination already exists: $dest"
+  exit 1
+fi
+
+mkdir -p "$(dirname "$dest")"
+
+echo "Moving:"
+echo "  $src"
+echo "to:"
+echo "  $dest"
+
+mv "$src" "$dest"
+
+cd "$DOTFILES"
+
+echo
+echo "Dry-run stow:"
+stow -nv -t "$HOME" "$pkg"
+
+echo
+echo "If output looks good, run:"
+echo "  cd $DOTFILES && stow -v $pkg"

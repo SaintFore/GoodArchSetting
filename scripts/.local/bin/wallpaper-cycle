@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+wallpaper_dir="${WALLPAPER_DIR:-$HOME/Downloads/wallpapers/non}"
+output="${WALLPAPER_OUTPUT:-DP-1}"
+interval="${WALLPAPER_INTERVAL:-5}"
+
+if [[ ! -d "$wallpaper_dir" ]]; then
+  printf 'wallpaper-cycle: directory does not exist: %s\n' "$wallpaper_dir" >&2
+  exit 1
+fi
+
+while true; do
+  mapfile -d '' images < <(
+    find "$wallpaper_dir" -type f \
+      \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) \
+      -print0 |
+      sort -z
+  )
+
+  if ((${#images[@]} == 0)); then
+    printf 'wallpaper-cycle: no images found in %s\n' "$wallpaper_dir" >&2
+    sleep "$interval"
+    continue
+  fi
+
+  for img in "${images[@]}"; do
+    awww img "$img" --outputs "$output" \
+      --transition-type fade \
+      --transition-duration 2 \
+      --transition-fps 60 \
+      --resize fit
+    sleep "$interval"
+  done
+done
