@@ -34,6 +34,7 @@ Old README references to Hyprland, Alacritty, Kitty, or Fish are intentionally n
 ├── aur.txt                         # AUR package list
 ├── pac.txt                         # Official Arch package list
 ├── hyprlock/.config/hypr/          # Hyprlock config
+├── keyd/etc/keyd/                  # keyd keyboard remapping config
 ├── mako/.config/mako/              # Notification daemon config
 ├── niri/.config/niri/              # Niri compositor config
 ├── nvim/.config/nvim/              # Neovim/LazyVim config
@@ -47,13 +48,27 @@ Old README references to Hyprland, Alacritty, Kitty, or Fish are intentionally n
 
 ## Package installation
 
-Install official packages:
+On a fresh Arch system, install `git`, clone this repository, then run the package commands from the repository root:
+
+```bash
+sudo pacman -S git
+git clone https://github.com/SaintFore/GoodArchSetting ~/.dotfiles
+cd ~/.dotfiles
+```
+
+Install the official Arch packages:
 
 ```bash
 sudo pacman -Syu --needed - < pac.txt
 ```
 
-Install AUR packages after bootstrapping an AUR helper. `aur.txt` currently includes `paru`, so install `paru` manually first if the system does not already have it:
+If `pacman` asks which `tesseract-data` package to install, choose `eng` (currently option **30**). This dependency is needed by the Zathura PDF workflow. You can inspect it later with:
+
+```bash
+pacman -Qi tesseract
+```
+
+Install `paru` manually if the system does not already have it:
 
 ```bash
 git clone https://aur.archlinux.org/paru.git /tmp/paru
@@ -61,7 +76,15 @@ cd /tmp/paru
 makepkg -si
 ```
 
-Then install the AUR list:
+If `makepkg` asks for Rust, choose `rustup` (currently option **2**). This step can take a long time on a fresh install.
+
+Install the network-related AUR packages first when needed:
+
+```bash
+paru -S localsend-bin clash-party-bin
+```
+
+Then install the remaining AUR list:
 
 ```bash
 paru -S --needed - < aur.txt
@@ -69,10 +92,24 @@ paru -S --needed - < aur.txt
 
 ## Deploy dotfiles
 
-This repository is structured for GNU Stow. From the repository root, stow only the modules you want:
+This repository is structured for GNU Stow. From the repository root, stow each module you want:
 
 ```bash
-stow niri waybar mako hyprlock yazi zathura zsh zim nvim rime
+stow -v <module>
+```
+
+For example:
+
+```bash
+stow -v niri
+stow -v waybar
+stow -v mako
+```
+
+`keyd` is the exception because it deploys files under `/etc`:
+
+```bash
+stow -v keyd -t /
 ```
 
 Before stowing, back up any existing config directories that would conflict, for example:

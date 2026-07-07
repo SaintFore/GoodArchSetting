@@ -34,6 +34,7 @@ Las menciones antiguas a Hyprland, Alacritty, Kitty o Fish no forman parte de la
 ├── aur.txt                         # Lista de paquetes AUR
 ├── pac.txt                         # Lista de paquetes oficiales de Arch
 ├── hyprlock/.config/hypr/          # Configuración de Hyprlock
+├── keyd/etc/keyd/                  # Configuración de reasignación de teclado con keyd
 ├── mako/.config/mako/              # Configuración del demonio de notificaciones
 ├── niri/.config/niri/              # Configuración de Niri
 ├── nvim/.config/nvim/              # Configuración de Neovim/LazyVim
@@ -47,13 +48,27 @@ Las menciones antiguas a Hyprland, Alacritty, Kitty o Fish no forman parte de la
 
 ## Instalación de paquetes
 
-Instala los paquetes oficiales:
+En una instalación limpia de Arch, instala `git`, clona este repositorio y ejecuta los comandos desde la raíz del repositorio:
+
+```bash
+sudo pacman -S git
+git clone https://github.com/SaintFore/GoodArchSetting ~/.dotfiles
+cd ~/.dotfiles
+```
+
+Instala los paquetes oficiales de Arch:
 
 ```bash
 sudo pacman -Syu --needed - < pac.txt
 ```
 
-Para instalar paquetes de AUR, primero necesitas un helper de AUR. `aur.txt` incluye `paru`, así que instálalo manualmente si el sistema aún no lo tiene:
+Si `pacman` pregunta qué paquete `tesseract-data` instalar, elige `eng` (actualmente la opción **30**). Es una dependencia necesaria para el flujo de PDF con Zathura. Puedes inspeccionarla después con:
+
+```bash
+pacman -Qi tesseract
+```
+
+Instala `paru` manualmente si el sistema aún no lo tiene:
 
 ```bash
 git clone https://aur.archlinux.org/paru.git /tmp/paru
@@ -61,7 +76,15 @@ cd /tmp/paru
 makepkg -si
 ```
 
-Luego instala la lista de AUR:
+Si `makepkg` pregunta por Rust, elige `rustup` (actualmente la opción **2**). Este paso puede tardar bastante en una instalación nueva.
+
+Instala primero los paquetes AUR relacionados con la red cuando haga falta:
+
+```bash
+paru -S localsend-bin clash-party-bin
+```
+
+Luego instala el resto de la lista AUR:
 
 ```bash
 paru -S --needed - < aur.txt
@@ -69,10 +92,24 @@ paru -S --needed - < aur.txt
 
 ## Despliegue de dotfiles
 
-El repositorio está organizado para GNU Stow. Desde la raíz del repositorio, despliega solo los módulos que necesites:
+El repositorio está organizado para GNU Stow. Desde la raíz del repositorio, despliega cada módulo que necesites:
 
 ```bash
-stow niri waybar mako hyprlock yazi zathura zsh zim nvim rime
+stow -v <module>
+```
+
+Por ejemplo:
+
+```bash
+stow -v niri
+stow -v waybar
+stow -v mako
+```
+
+`keyd` es la excepción porque despliega archivos bajo `/etc`:
+
+```bash
+stow -v keyd -t /
 ```
 
 Antes de usar Stow, haz copia de seguridad de las configuraciones existentes que puedan entrar en conflicto:

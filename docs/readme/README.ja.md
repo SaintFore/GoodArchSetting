@@ -34,6 +34,7 @@ Niri ベースの Wayland ワークステーション向けの個人用 Arch Lin
 ├── aur.txt                         # AUR パッケージリスト
 ├── pac.txt                         # Arch 公式パッケージリスト
 ├── hyprlock/.config/hypr/          # Hyprlock 設定
+├── keyd/etc/keyd/                  # keyd のキーボードリマップ設定
 ├── mako/.config/mako/              # 通知デーモン設定
 ├── niri/.config/niri/              # Niri 設定
 ├── nvim/.config/nvim/              # Neovim/LazyVim 設定
@@ -47,13 +48,27 @@ Niri ベースの Wayland ワークステーション向けの個人用 Arch Lin
 
 ## パッケージのインストール
 
-公式パッケージをインストールします。
+新しい Arch 環境では、まず `git` をインストールし、このリポジトリを clone してから、リポジトリルートで以降のコマンドを実行します。
+
+```bash
+sudo pacman -S git
+git clone https://github.com/SaintFore/GoodArchSetting ~/.dotfiles
+cd ~/.dotfiles
+```
+
+Arch 公式パッケージをインストールします。
 
 ```bash
 sudo pacman -Syu --needed - < pac.txt
 ```
 
-AUR パッケージをインストールするには、先に AUR helper が必要です。`aur.txt` には `paru` が含まれているため、まだ `paru` がない場合は先に手動でインストールします。
+`pacman` がインストールする `tesseract-data` パッケージを尋ねた場合は、`eng`（現在のプロンプトでは **30**）を選びます。これは Zathura の PDF ワークフローで必要な依存関係です。後から確認するには次を実行します。
+
+```bash
+pacman -Qi tesseract
+```
+
+システムにまだ `paru` がない場合は、先に手動でインストールします。
 
 ```bash
 git clone https://aur.archlinux.org/paru.git /tmp/paru
@@ -61,7 +76,15 @@ cd /tmp/paru
 makepkg -si
 ```
 
-その後、AUR リストをインストールします。
+`makepkg` が Rust の選択を求めた場合は、`rustup`（現在のプロンプトでは **2**）を選びます。新しい環境ではこの手順に時間がかかることがあります。
+
+必要に応じて、ネットワーク関連の AUR パッケージを先にインストールします。
+
+```bash
+paru -S localsend-bin clash-party-bin
+```
+
+その後、残りの AUR リストをインストールします。
 
 ```bash
 paru -S --needed - < aur.txt
@@ -69,10 +92,24 @@ paru -S --needed - < aur.txt
 
 ## dotfiles の展開
 
-このリポジトリは GNU Stow 向けに構成されています。リポジトリのルートから、必要なモジュールだけを stow します。
+このリポジトリは GNU Stow 向けに構成されています。リポジトリルートから、必要なモジュールを 1 つずつ stow します。
 
 ```bash
-stow niri waybar mako hyprlock yazi zathura zsh zim nvim rime
+stow -v <module>
+```
+
+例:
+
+```bash
+stow -v niri
+stow -v waybar
+stow -v mako
+```
+
+`keyd` は `/etc` 以下へファイルを展開するため例外です。
+
+```bash
+stow -v keyd -t /
 ```
 
 Stow の前に、競合しそうな既存設定をバックアップしてください。

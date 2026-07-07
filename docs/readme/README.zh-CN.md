@@ -34,6 +34,7 @@
 ├── aur.txt                         # AUR 包清单
 ├── pac.txt                         # Arch 官方仓库包清单
 ├── hyprlock/.config/hypr/          # Hyprlock 配置
+├── keyd/etc/keyd/                  # keyd 键盘重映射配置
 ├── mako/.config/mako/              # 通知守护进程配置
 ├── niri/.config/niri/              # Niri compositor 配置
 ├── nvim/.config/nvim/              # Neovim/LazyVim 配置
@@ -47,13 +48,27 @@
 
 ## 安装软件包
 
-安装官方仓库包：
+在全新的 Arch 系统上，先安装 `git`，克隆仓库，然后从仓库根目录执行后续命令：
+
+```bash
+sudo pacman -S git
+git clone https://github.com/SaintFore/GoodArchSetting ~/.dotfiles
+cd ~/.dotfiles
+```
+
+先安装 Arch 官方仓库包：
 
 ```bash
 sudo pacman -Syu --needed - < pac.txt
 ```
 
-安装 AUR 包前需要先准备 AUR helper。`aur.txt` 当前包含 `paru`，所以如果系统还没有 `paru`，先手动安装：
+如果 `pacman` 提示选择 `tesseract-data`，选择 `eng`（当前提示中是 **30**）。这是 Zathura PDF 工作流需要的依赖。之后可以用下面的命令查看依赖信息：
+
+```bash
+pacman -Qi tesseract
+```
+
+如果系统还没有 `paru`，先手动安装：
 
 ```bash
 git clone https://aur.archlinux.org/paru.git /tmp/paru
@@ -61,7 +76,15 @@ cd /tmp/paru
 makepkg -si
 ```
 
-然后安装 AUR 清单：
+如果 `makepkg` 提示安装 Rust，选择 `rustup`（当前提示中是 **2**）。这个步骤在新机器上可能需要等待很长时间。
+
+需要时先安装和网络相关的 AUR 包：
+
+```bash
+paru -S localsend-bin clash-party-bin
+```
+
+再安装剩余的 AUR 清单：
 
 ```bash
 paru -S --needed - < aur.txt
@@ -69,10 +92,24 @@ paru -S --needed - < aur.txt
 
 ## 部署 dotfiles
 
-仓库按 GNU Stow 组织。从仓库根目录按需 stow 模块：
+仓库按 GNU Stow 组织。从仓库根目录按需逐个 stow 模块：
 
 ```bash
-stow niri waybar mako hyprlock yazi zathura zsh zim nvim rime
+stow -v <module>
+```
+
+例如：
+
+```bash
+stow -v niri
+stow -v waybar
+stow -v mako
+```
+
+`keyd` 是例外，因为它会把文件部署到 `/etc`：
+
+```bash
+stow -v keyd -t /
 ```
 
 stow 之前先备份可能冲突的现有配置，例如：
