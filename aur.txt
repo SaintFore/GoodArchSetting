@@ -4,8 +4,6 @@ localsend-bin
 micromamba-bin
 mongosh-bin
 netbird-bin
-paru
-paru-debug
 piclist-bin
 superproductivity-bin
 usql-bin

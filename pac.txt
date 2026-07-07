@@ -43,6 +43,7 @@ imv
 intel-media-driver
 intel-ucode
 jq
+keyd
 lazygit
 less
 libpulse
