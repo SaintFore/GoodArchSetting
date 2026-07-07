@@ -1,6 +1,6 @@
 # OPENSPEC:START
 # OpenSpec shell completions configuration
-fpath=("/home/julien/.zsh/completions" $fpath)
+fpath=("$HOME/.zsh/completions" $fpath)
 # OPENSPEC:END
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -149,7 +149,7 @@ unset key
 # >>> mamba initialize >>>
 # !! Contents within this block are managed by 'micromamba shell init' !!
 export MAMBA_EXE='/usr/bin/micromamba';
-export MAMBA_ROOT_PREFIX='/home/julien/micromamba';
+export MAMBA_ROOT_PREFIX="$HOME/micromamba";
 __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__mamba_setup"
@@ -169,7 +169,7 @@ if [ -f ~/.zshrc.local ]; then
 fi
 
 # pnpm
-export PNPM_HOME="/home/julien/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
