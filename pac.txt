@@ -90,7 +90,6 @@ tlp
 tlp-rdw
 tlp-pd
 tealdeer
-thunar
 tig
 tmux
 ttf-dejavu
