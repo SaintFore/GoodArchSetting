@@ -10,3 +10,4 @@ usql-bin
 visual-studio-code-bin
 waypaper
 zen-browser-bin
+ttf-lxgw-wenkai
