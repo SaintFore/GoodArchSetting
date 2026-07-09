@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+desc="$1"
+acct="$2"
+amount="$3"
+from="${4:-wechat}"
+
+LEDGER_FILE="${LEDGER_FILE:-$HOME/Documents/hledger/main.journal}"
+
+cat >>"$LEDGER_FILE" <<EOF
+
+$(date +%F) * $desc
+    expenses:$acct        $amount CNY
+    assets:$from
+EOF
+
+hledger -f "$LEDGER_FILE" check

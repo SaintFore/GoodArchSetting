@@ -193,3 +193,5 @@ alias ls="eza"
 alias ll="eza -l"
 alias la="eza -la"
 alias tree="eza --tree"
+
+export LEDGER_FILE="$HOME/Documents/hledger/main.journal"
