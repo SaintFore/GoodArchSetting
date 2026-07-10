@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/nerd-icons"
+json="$cache_dir/glyphnames.json"
+list="$cache_dir/icons.txt"
+
+mkdir -p "$cache_dir"
+
+# 缓存不存在时下载官方 Nerd Fonts 图标数据库
+if [[ ! -f "$json" ]]; then
+  wget -qO "$json" \
+    "https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/glyphnames.json"
+fi
+
+# 生成：图标  名称
+if [[ ! -f "$list" || "$json" -nt "$list" ]]; then
+  jq -r '
+        to_entries[]
+        | select(.key != "METADATA")
+        | "\(.value.char)  \(.key)"
+    ' "$json" >"$list"
+fi
+
+selected="$(
+  fuzzel --dmenu \
+    --prompt="󰨭  Icon > " \
+    --lines=15 \
+    --width=45 \
+    <"$list"
+)"
+
+[[ -n "$selected" ]] || exit 0
+
+# 取每行的第一个 Unicode 字符
+icon="${selected%%  *}"
+
+printf '%s' "$icon" | wl-copy
