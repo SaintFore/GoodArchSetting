@@ -9,6 +9,28 @@ Niri ベースの Wayland ワークステーション向けの個人用 Arch Lin
 
 このリポジトリの目的は、新しい Arch 環境を素早く普段の作業環境に近づけることです。パッケージリストをインストールし、必要なモジュールを Stow で展開し、Wayland セッションにログインします。
 
+## 使用例
+
+この3枚は、デスクトップ全体、Neovim の編集環境、そして普段使いのブラウザを示しています。
+
+### デスクトップ全景
+
+この画像は、Waybar、Foot、Mako などが同じ Niri セッションの中で動いている様子です。
+
+<img src="https://tree-1327913400.cos.ap-nanjing.myqcloud.com/world/20260710200708863.webp" alt="desktop" width="100%" />
+
+### Neovim の環境
+
+この画像は、LazyVim を使った編集環境です。
+
+<img src="https://tree-1327913400.cos.ap-nanjing.myqcloud.com/world/20260710201139819.webp" alt="neovim" width="100%" />
+
+### ブラウザの環境
+
+この画像は、日常的に使っている Zen Browser です。
+
+<img src="https://tree-1327913400.cos.ap-nanjing.myqcloud.com/world/20260710201355158.webp" alt="zen" width="100%" />
+
 ## 現在の構成
 
 現在のリポジトリは次の構成を前提にしています。
@@ -21,8 +43,11 @@ Niri ベースの Wayland ワークステーション向けの個人用 Arch Lin
 | 音声と画面共有の基本         | PipeWire, WirePlumber, Pavucontrol, xdg-desktop-portal-gtk        |
 | 入力メソッド                 | Fcitx5 + Rime                                                     |
 | エディタ                     | Neovim / LazyVim                                                  |
+| ブラウザ                     | Zen Browser                                                       |
+| 概要表示                     | Fastfetch                                                         |
 | シェル                       | Zsh + Zim, Fzf, Zoxide, Eza                                       |
-| ファイルと文書のワークフロー | Yazi, Thunar, Zathura, Imv, Mpv                                   |
+| 家計管理                     | Hledger                                                           |
+| ファイルと文書のワークフロー | Yazi, Zathura, Imv, Mpv                                           |
 | パッケージリスト             | `pac.txt` は Arch 公式パッケージ用、`aur.txt` は AUR パッケージ用 |
 
 古い README にある Hyprland、Alacritty、Kitty、Fish への言及は、対応する設定ディレクトリを再追加しない限り、現在の構成には含まれません。
@@ -35,10 +60,12 @@ Niri ベースの Wayland ワークステーション向けの個人用 Arch Lin
 ├── pac.txt                         # Arch 公式パッケージリスト
 ├── hyprlock/.config/hypr/          # Hyprlock 設定
 ├── keyd/etc/keyd/                  # keyd のキーボードリマップ設定
+├── fastfetch/.config/fastfetch/     # Fastfetch 設定とロゴ
 ├── mako/.config/mako/              # 通知デーモン設定
 ├── niri/.config/niri/              # Niri 設定
 ├── nvim/.config/nvim/              # Neovim/LazyVim 設定
 ├── rime/.local/share/fcitx5/rime/  # Fcitx5 Rime の辞書とスキーマ
+├── scripts/.local/bin/              # 個人用スクリプト
 ├── waybar/.config/waybar/          # Waybar 設定、スタイル、電源メニュー
 ├── yazi/.config/yazi/              # Yazi 設定
 ├── zathura/.config/zathura/        # Zathura 設定
@@ -90,6 +117,8 @@ paru -S localsend-bin clash-party-bin
 paru -S --needed - < aur.txt
 ```
 
+このデスクトップで使うブラウザは Zen Browser で、そのパッケージはすでに `aur.txt` に含まれています。
+
 ## dotfiles の展開
 
 このリポジトリは GNU Stow 向けに構成されています。リポジトリルートから、必要なモジュールを 1 つずつ stow します。
@@ -118,6 +147,7 @@ Stow の前に、競合しそうな既存設定をバックアップしてくだ
 mv ~/.config/niri ~/.config/niri.bak 2>/dev/null || true
 mv ~/.config/waybar ~/.config/waybar.bak 2>/dev/null || true
 mv ~/.config/nvim ~/.config/nvim.bak 2>/dev/null || true
+mv ~/.config/fastfetch ~/.config/fastfetch.bak 2>/dev/null || true
 mv ~/.local/share/fcitx5/rime ~/.local/share/fcitx5/rime.bak 2>/dev/null || true
 ```
 
@@ -143,6 +173,7 @@ polkit-gnome-authentication-agent-1
 | `Mod+E`                    | Foot 内で Yazi を開く              |
 | `Super+Alt+L`              | Hyprlock でロックする              |
 | `Mod+B`                    | Waybar の表示を切り替える          |
+| `Mod+Alt+I`                | Nerd Font アイコン選択器を開く     |
 | `XF86MonBrightnessUp/Down` | `brightnessctl` で明るさを調整する |
 | `Print`                    | Niri のスクリーンショット          |
 
@@ -150,9 +181,9 @@ polkit-gnome-authentication-agent-1
 
 `waybar/.config/waybar/config.jsonc` には次の内容が含まれています。
 
-- Niri のワークスペースとウィンドウモジュール。
+- Niri のワークスペース、ウィンドウ、モード、scratchpad モジュール。
+- MPRIS、Bluetooth、ネットワーク、バッテリー、温度、バックライト、言語、トレイ、プライバシー、カスタム電源メニュー。
 - Pulseaudio/PipeWire の音量表示。クリックで `pavucontrol` を開きます。
-- ネットワーク、バッテリー、温度、バックライト、時計、トレイ、カスタム電源メニュー。
 - `power-profiles-daemon` モジュール。
 
 `pac.txt` は現在これらを使用します。
@@ -224,6 +255,26 @@ edit = [
 | `/`  | 現在のファイルリスト内で検索   | Yazi 内部 find   |
 | `f`  | 現在のファイルリストをフィルタ | Yazi 内部 filter |
 
+## 便利なスクリプトと家計管理
+
+`scripts/.local/bin/nerd-icon-picker` は `fuzzel` で Nerd Fonts のアイコン一覧を開き、選んだグリフをクリップボードへコピーします。キーバインドは `Mod+Alt+I` です。
+
+`scripts/.local/bin/hlpay` は hledger の支出を素早く追記するためのスクリプトで、既定では次のファイルに書き込みます。
+
+```txt
+$HOME/Documents/hledger/main.journal
+```
+
+`zsh/.zshrc` でも `LEDGER_FILE` を export しているので、`hlpay` と対話的な shell は同じ台帳を使います。
+
+## Fastfetch
+
+`fastfetch/.config/fastfetch/config.jsonc` は `chafa` でローカルロゴを描画します。設定と画像はどちらも `fastfetch/.config/fastfetch/` にあります。
+
+ロゴを変える場合は `fastfetch/logo.jpg` を差し替えてください。
+
+`fastfetch` はすでに `pac.txt` に入っているので、公式パッケージの導入後すぐに使えます。
+
 ## フォントと見た目のリソース
 
 現在のパッケージリストには次が含まれています。
@@ -238,6 +289,8 @@ ttf-dejavu
 ```
 
 Hyprlock は `MonaspiceNe Nerd Font Mono` を使用し、これは `otf-monaspace-nerd` で提供されます。
+
+`aur.txt` には、より読みやすい中国語表示のための `ttf-lxgw-wenkai` も含めています。
 
 Mako は `ocean-sound-theme` の通知音も再生します。このパッケージは `pac.txt` に含まれています。
 

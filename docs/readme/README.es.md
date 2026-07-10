@@ -9,9 +9,31 @@ Dotfiles personales para Arch Linux, orientados a una estación de trabajo Wayla
 
 El objetivo de este repositorio es hacer que una instalación limpia de Arch se sienta familiar rápidamente: instala las listas de paquetes, despliega los módulos con Stow y entra en la sesión Wayland.
 
-## Stack actual
+## Ejemplos de uso
 
-El estado actual del repositorio se basa en estos componentes:
+Estas tres capturas muestran el escritorio completo, la configuración de Neovim y el navegador que uso a diario.
+
+### Vista del escritorio
+
+Esta captura muestra el escritorio Niri actual, con Waybar, Foot, Mako y el resto de la sesión funcionando juntos.
+
+<img src="https://tree-1327913400.cos.ap-nanjing.myqcloud.com/world/20260710200708863.webp" alt="desktop" width="100%" />
+
+### Configuración de Neovim
+
+Esta captura muestra mi entorno de edición basado en LazyVim.
+
+<img src="https://tree-1327913400.cos.ap-nanjing.myqcloud.com/world/20260710201139819.webp" alt="neovim" width="100%" />
+
+### Configuración del navegador
+
+Esta captura muestra Zen Browser en uso cotidiano.
+
+<img src="https://tree-1327913400.cos.ap-nanjing.myqcloud.com/world/20260710201355158.webp" alt="zen" width="100%" />
+
+## Componentes actuales
+
+El repositorio actualmente gira en torno a estos componentes:
 
 | Área                                 | Componentes                                                               |
 | ------------------------------------ | ------------------------------------------------------------------------- |
@@ -21,8 +43,11 @@ El estado actual del repositorio se basa en estos componentes:
 | Audio y base para compartir pantalla | PipeWire, WirePlumber, Pavucontrol, xdg-desktop-portal-gtk                |
 | Método de entrada                    | Fcitx5 + Rime                                                             |
 | Editor                               | Neovim / LazyVim                                                          |
+| Navegador                            | Zen Browser                                                               |
+| Vista general                        | Fastfetch                                                                 |
 | Shell                                | Zsh + Zim, Fzf, Zoxide, Eza                                               |
-| Flujo de archivos y documentos       | Yazi, Thunar, Zathura, Imv, Mpv                                           |
+| Contabilidad                         | Hledger                                                                   |
+| Flujo de archivos y documentos       | Yazi, Zathura, Imv, Mpv                                                   |
 | Listas de paquetes                   | `pac.txt` para paquetes oficiales de Arch, `aur.txt` para paquetes de AUR |
 
 Las menciones antiguas a Hyprland, Alacritty, Kitty o Fish no forman parte de la configuración actual, salvo que se vuelvan a añadir sus directorios de configuración.
@@ -35,10 +60,12 @@ Las menciones antiguas a Hyprland, Alacritty, Kitty o Fish no forman parte de la
 ├── pac.txt                         # Lista de paquetes oficiales de Arch
 ├── hyprlock/.config/hypr/          # Configuración de Hyprlock
 ├── keyd/etc/keyd/                  # Configuración de reasignación de teclado con keyd
+├── fastfetch/.config/fastfetch/    # Configuración y logo de Fastfetch
 ├── mako/.config/mako/              # Configuración del demonio de notificaciones
 ├── niri/.config/niri/              # Configuración de Niri
 ├── nvim/.config/nvim/              # Configuración de Neovim/LazyVim
 ├── rime/.local/share/fcitx5/rime/  # Diccionarios y esquemas de Fcitx5 Rime
+├── scripts/.local/bin/             # Scripts personales
 ├── waybar/.config/waybar/          # Configuración, estilo y menú de energía de Waybar
 ├── yazi/.config/yazi/              # Configuración de Yazi
 ├── zathura/.config/zathura/        # Configuración de Zathura
@@ -90,6 +117,8 @@ Luego instala el resto de la lista AUR:
 paru -S --needed - < aur.txt
 ```
 
+Zen Browser es el navegador que uso en este escritorio, y su paquete ya está incluido en `aur.txt`.
+
 ## Despliegue de dotfiles
 
 El repositorio está organizado para GNU Stow. Desde la raíz del repositorio, despliega cada módulo que necesites:
@@ -118,6 +147,7 @@ Antes de usar Stow, haz copia de seguridad de las configuraciones existentes que
 mv ~/.config/niri ~/.config/niri.bak 2>/dev/null || true
 mv ~/.config/waybar ~/.config/waybar.bak 2>/dev/null || true
 mv ~/.config/nvim ~/.config/nvim.bak 2>/dev/null || true
+mv ~/.config/fastfetch ~/.config/fastfetch.bak 2>/dev/null || true
 mv ~/.local/share/fcitx5/rime ~/.local/share/fcitx5/rime.bak 2>/dev/null || true
 ```
 
@@ -143,6 +173,7 @@ Atajos importantes de la configuración actual de Niri:
 | `Mod+E`                    | Abrir Yazi dentro de Foot          |
 | `Super+Alt+L`              | Bloquear con Hyprlock              |
 | `Mod+B`                    | Mostrar u ocultar Waybar           |
+| `Mod+Alt+I`                | Abrir el selector de iconos Nerd   |
 | `XF86MonBrightnessUp/Down` | Ajustar brillo con `brightnessctl` |
 | `Print`                    | Captura de pantalla de Niri        |
 
@@ -150,9 +181,9 @@ Atajos importantes de la configuración actual de Niri:
 
 `waybar/.config/waybar/config.jsonc` incluye:
 
-- Módulos de espacios de trabajo y ventanas de Niri.
+- Módulos de espacios de trabajo, ventana, modo y scratchpad de Niri.
+- Controles de MPRIS, Bluetooth, red, batería, temperatura, brillo, idioma, bandeja, privacidad y menú de energía personalizado.
 - Visualización de volumen Pulseaudio/PipeWire con `pavucontrol` al hacer clic.
-- Red, batería, temperatura, brillo, reloj, bandeja y menú de energía personalizado.
 - Módulo `power-profiles-daemon`.
 
 `pac.txt` usa actualmente:
@@ -224,6 +255,26 @@ Atajos de búsqueda predeterminados de Yazi que conviene recordar:
 | `/`   | Buscar dentro de la lista actual | Find interno de Yazi   |
 | `f`   | Filtrar la lista actual          | Filtro interno de Yazi |
 
+## Scripts útiles y contabilidad
+
+`scripts/.local/bin/nerd-icon-picker` abre una lista de iconos Nerd Fonts a través de `fuzzel` y copia el glifo seleccionado al portapapeles. Está asignado a `Mod+Alt+I`.
+
+`scripts/.local/bin/hlpay` añade rápidamente un asiento de gasto de hledger y escribe en:
+
+```txt
+$HOME/Documents/hledger/main.journal
+```
+
+`zsh/.zshrc` también exporta `LEDGER_FILE`, así que `hlpay` y las shells interactivas usan la misma ruta del libro mayor.
+
+## Fastfetch
+
+`fastfetch/.config/fastfetch/config.jsonc` usa `chafa` para renderizar un logo local. Tanto la configuración como la imagen están en `fastfetch/.config/fastfetch/`.
+
+Si quieres cambiar el logo, sustituye `fastfetch/logo.jpg`.
+
+`fastfetch` ya está listado en `pac.txt`, así que queda disponible justo después de instalar los paquetes oficiales.
+
 ## Fuentes y recursos visuales
 
 La lista de paquetes actual incluye:
@@ -238,6 +289,8 @@ ttf-dejavu
 ```
 
 Hyprlock usa `MonaspiceNe Nerd Font Mono`, cubierto por `otf-monaspace-nerd`.
+
+`aur.txt` también incluye `ttf-lxgw-wenkai` para una tipografía china más agradable.
 
 Mako también reproduce un sonido de notificación de `ocean-sound-theme`, incluido en `pac.txt`.
 

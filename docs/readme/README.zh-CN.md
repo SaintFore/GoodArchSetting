@@ -5,13 +5,29 @@
 [![Español](https://img.shields.io/badge/lang-Espa%C3%B1ol-yellow)](README.es.md)
 [![日本語](https://img.shields.io/badge/lang-%E6%97%A5%E6%9C%AC%E8%AA%9E-green)](README.ja.md)
 
-面向 Niri Wayland 工作站的个人 Arch Linux dotfiles。
+这是我为 Niri Wayland 工作站整理的 Arch Linux dotfiles。
 
-这个仓库用于让一台新的 Arch 机器快速接近熟悉的工作环境：安装包清单，按需 stow 配置模块，然后登录 Wayland 会话。
+这个仓库的目标很直接：让一台新装的 Arch 机器尽快恢复成熟悉的工作环境。先装好包，再按需 stow 各个模块，随后直接进入 Wayland 会话。
 
-## 当前技术栈
+## 使用场景
 
-当前仓库状态基于这些组件：
+这三张图分别对应桌面全景、Neovim 编辑环境，以及日常使用的浏览器界面。
+
+### 桌面全景
+
+<img src="https://tree-1327913400.cos.ap-nanjing.myqcloud.com/world/20260710200708863.webp" alt="desktop" width="100%" />
+
+### Neovim 编辑环境
+
+<img src="https://tree-1327913400.cos.ap-nanjing.myqcloud.com/world/20260710201139819.webp" alt="neovim" width="100%" />
+
+### 浏览器界面
+
+<img src="https://tree-1327913400.cos.ap-nanjing.myqcloud.com/world/20260710201355158.webp" alt="zen" width="100%" />
+
+## 当前组成
+
+仓库当前围绕这些组件展开：
 
 | 范围               | 组件                                                       |
 | ------------------ | ---------------------------------------------------------- |
@@ -21,8 +37,11 @@
 | 音频和基础屏幕共享 | PipeWire, WirePlumber, Pavucontrol, xdg-desktop-portal-gtk |
 | 输入法             | Fcitx5 + Rime                                              |
 | 编辑器             | Neovim / LazyVim                                           |
+| 浏览器             | Zen Browser                                                |
+| 系统概览           | Fastfetch                                                  |
 | Shell              | Zsh + Zim, Fzf, Zoxide, Eza                                |
-| 文件和文档工作流   | Yazi, Thunar, Zathura, Imv, Mpv                            |
+| 记账               | Hledger                                                    |
+| 文件和文档工作流   | Yazi, Zathura, Imv, Mpv                                    |
 | 包清单             | `pac.txt` 用于 Arch 官方仓库包，`aur.txt` 用于 AUR 包      |
 
 旧 README 中关于 Hyprland、Alacritty、Kitty 或 Fish 的描述不代表当前配置，除非之后重新加入对应配置目录。
@@ -35,10 +54,12 @@
 ├── pac.txt                         # Arch 官方仓库包清单
 ├── hyprlock/.config/hypr/          # Hyprlock 配置
 ├── keyd/etc/keyd/                  # keyd 键盘重映射配置
+├── fastfetch/.config/fastfetch/    # Fastfetch 配置和 Logo
 ├── mako/.config/mako/              # 通知守护进程配置
 ├── niri/.config/niri/              # Niri compositor 配置
 ├── nvim/.config/nvim/              # Neovim/LazyVim 配置
 ├── rime/.local/share/fcitx5/rime/  # Fcitx5 Rime 词库和方案
+├── scripts/.local/bin/             # 自用脚本
 ├── waybar/.config/waybar/          # Waybar 配置、样式和电源菜单
 ├── yazi/.config/yazi/              # Yazi 配置
 ├── zathura/.config/zathura/        # Zathura 配置
@@ -78,17 +99,19 @@ makepkg -si
 
 如果 `makepkg` 提示安装 Rust，选择 `rustup`（当前提示中是 **2**）。这个步骤在新机器上可能需要等待很长时间。
 
-需要时先安装和网络相关的 AUR 包：
+需要时，先安装和网络相关的 AUR 包：
 
 ```bash
 paru -S localsend-bin clash-party-bin
 ```
 
-再安装剩余的 AUR 清单：
+然后再安装剩余的 AUR 清单：
 
 ```bash
 paru -S --needed - < aur.txt
 ```
+
+桌面浏览器我使用 Zen Browser，对应的包已经写入 `aur.txt`。
 
 ## 部署 dotfiles
 
@@ -118,6 +141,7 @@ stow 之前先备份可能冲突的现有配置，例如：
 mv ~/.config/niri ~/.config/niri.bak 2>/dev/null || true
 mv ~/.config/waybar ~/.config/waybar.bak 2>/dev/null || true
 mv ~/.config/nvim ~/.config/nvim.bak 2>/dev/null || true
+mv ~/.config/fastfetch ~/.config/fastfetch.bak 2>/dev/null || true
 mv ~/.local/share/fcitx5/rime ~/.local/share/fcitx5/rime.bak 2>/dev/null || true
 ```
 
@@ -143,6 +167,7 @@ polkit-gnome-authentication-agent-1
 | `Mod+E`                    | 在 Foot 中打开 Yazi           |
 | `Super+Alt+L`              | 使用 Hyprlock 锁屏            |
 | `Mod+B`                    | 切换 Waybar 显示状态          |
+| `Mod+Alt+I`                | 打开 Nerd Font 图标选择器     |
 | `XF86MonBrightnessUp/Down` | 使用 `brightnessctl` 调整亮度 |
 | `Print`                    | Niri 截图                     |
 
@@ -150,9 +175,9 @@ polkit-gnome-authentication-agent-1
 
 `waybar/.config/waybar/config.jsonc` 包含：
 
-- Niri 工作区和窗口模块。
+- Niri 工作区、窗口、模式和 scratchpad 模块。
+- MPRIS 媒体控制、蓝牙、网络、电池、温度、背光、语言、托盘、隐私指示和自定义电源菜单。
 - Pulseaudio/PipeWire 音量显示，点击打开 `pavucontrol`。
-- 网络、电池、温度、背光、时钟、托盘和自定义电源菜单。
 - `power-profiles-daemon` 模块。
 
 `pac.txt` 当前使用：
@@ -224,6 +249,26 @@ edit = [
 | `/`  | 在当前文件列表中查找 | Yazi 内部 find   |
 | `f`  | 过滤当前文件列表     | Yazi 内部 filter |
 
+## 实用脚本和记账
+
+`scripts/.local/bin/nerd-icon-picker` 会通过 `fuzzel` 打开 Nerd Fonts 图标列表，选中的图标会复制到剪贴板。它对应的快捷键是 `Mod+Alt+I`。
+
+`scripts/.local/bin/hlpay` 用来快速追加一笔 hledger 支出记录，默认写入：
+
+```txt
+$HOME/Documents/hledger/main.journal
+```
+
+`zsh/.zshrc` 里同时导出了 `LEDGER_FILE`，所以 `hlpay` 和交互式 shell 会使用同一个账本路径。
+
+## Fastfetch
+
+`fastfetch/.config/fastfetch/config.jsonc` 使用 `chafa` 渲染本地 Logo，配置文件和图片都放在 `fastfetch/.config/fastfetch/`。
+
+如果要更换 Logo 请更改 `fastfetch/` 下的 `logo.jpg` 文件。
+
+`fastfetch` 本身已经包含在 `pac.txt` 里，所以新机器上装完官方包之后就能直接用。
+
 ## 字体和视觉资源
 
 当前包清单包含：
@@ -236,6 +281,8 @@ otf-font-awesome
 otf-monaspace-nerd
 ttf-dejavu
 ```
+
+`aur.txt` 里还包含 `ttf-lxgw-wenkai`，用于中文显示时补充更顺眼的字体。
 
 Hyprlock 使用 `MonaspiceNe Nerd Font Mono`，由 `otf-monaspace-nerd` 覆盖。
 
