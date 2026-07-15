@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+service="swayidle.service"
+
+case "$1" in
+toggle)
+  if systemctl --user is-active --quiet "$service"; then
+    systemctl --user stop "$service"
+  else
+    systemctl --user start "$service"
+  fi
+  ;;
+esac
+
+if systemctl --user is-active --quiet "$service"; then
+  printf '{"text":"󰒲","tooltip":"swayidle 已启用","class":"active"}\n'
+else
+  printf '{"text":"󰒳","tooltip":"swayidle 已停用","class":"inactive"}\n'
+fi

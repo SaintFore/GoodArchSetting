@@ -65,7 +65,8 @@ button:hover {
 #mpris,
 #tray,
 #custom-power,
-#privacy {
+#privacy,
+#custom-swayidle {
   margin: 4px 2px;
   padding: 0 9px;
 
@@ -317,4 +318,16 @@ window#waybar.empty #window {
 #custom-power:hover {
   background: @red;
   color: @surface;
+}
+
+#custom-swayidle {
+  padding: 0 10px;
+}
+
+#custom-swayidle.active {
+  color: #a6e3a1;
+}
+
+#custom-swayidle.inactive {
+  color: #f38ba8;
 }

@@ -7,7 +7,7 @@
 
   "modules-left": ["niri/workspaces", "niri/mode", "niri/scratchpad", "mpris"],
 
-  "modules-center": ["niri/window"],
+  "modules-center": ["niri/window", "custom/swayidle"],
 
   "modules-right": [
     "privacy",
@@ -237,5 +237,13 @@
       "suspend": "systemctl suspend",
       "hibernate": "systemctl hibernate",
     },
+  },
+
+  "custom/swayidle": {
+    "exec": "~/.local/bin/waybar-swayidle",
+    "return-type": "json",
+    "interval": 2,
+    "on-click": "~/.local/bin/waybar-swayidle toggle",
+    "tooltip": true,
   },
 }
