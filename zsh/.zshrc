@@ -171,8 +171,8 @@ fi
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 # pnpm end
 
@@ -194,4 +194,10 @@ alias ll="eza -l"
 alias la="eza -la"
 alias tree="eza --tree"
 
+# hledger
 export LEDGER_FILE="$HOME/Documents/hledger/main.journal"
+
+# tuxedo
+export TODO_DIR="$HOME/Documents/todo"
+export TODO_FILE="$TODO_DIR/todo.txt"
+export DONE_FILE="$TODO_DIR/done.txt"
