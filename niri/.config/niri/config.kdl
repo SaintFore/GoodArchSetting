@@ -69,6 +69,11 @@ input {
     // focus-follows-mouse max-scroll-amount="0%"
 }
 
+cursor{
+  hide-when-typing
+  hide-after-inactive-ms 1000
+}
+
 include "outputs.kdl"
 
 // Settings that influence how windows are positioned and sized.
