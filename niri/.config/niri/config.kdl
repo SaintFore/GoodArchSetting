@@ -74,6 +74,7 @@ cursor{
   hide-after-inactive-ms 1000
 }
 
+include "gpu.kdl"
 include "outputs.kdl"
 
 // Settings that influence how windows are positioned and sized.
