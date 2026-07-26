@@ -201,3 +201,5 @@ export LEDGER_FILE="$HOME/Documents/hledger/main.journal"
 export TODO_DIR="$HOME/Documents/todo"
 export TODO_FILE="$TODO_DIR/todo.txt"
 export DONE_FILE="$TODO_DIR/done.txt"
+
+export SCIKIT_LEARN_DATA="$HOME/.cache/scikit-learn"
