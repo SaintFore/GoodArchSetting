@@ -66,7 +66,8 @@ button:hover {
 #tray,
 #custom-power,
 #privacy,
-#custom-swayidle {
+#custom-swayidle,
+#custom-pomotui {
   margin: 4px 2px;
   padding: 0 9px;
 
@@ -330,4 +331,19 @@ window#waybar.empty #window {
 
 #custom-swayidle.inactive {
   color: #f38ba8;
+}
+
+#custom-pomotui {
+  color: #d66b5f;
+  padding: 0 8px;
+}
+
+#custom-pomotui.paused,
+#custom-pomotui.pending {
+  color: #c9a66b;
+}
+
+#custom-pomotui.shortbreak,
+#custom-pomotui.longbreak {
+  color: #70b184;
 }

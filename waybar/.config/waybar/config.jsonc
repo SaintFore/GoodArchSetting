@@ -5,7 +5,13 @@
   "height": 34,
   "spacing": 2,
 
-  "modules-left": ["niri/workspaces", "niri/mode", "niri/scratchpad", "mpris"],
+  "modules-left": [
+    "niri/workspaces",
+    "niri/mode",
+    "niri/scratchpad",
+    "mpris",
+    "custom/pomotui",
+  ],
 
   "modules-center": ["niri/window", "custom/swayidle"],
 
@@ -34,7 +40,7 @@
 
   "niri/window": {
     "format": "{}",
-    "max-length": 55,
+    "max-length": 30,
     "separate-outputs": true,
   },
 
@@ -53,7 +59,8 @@
   "mpris": {
     "format": "{player_icon} {title}",
     "format-paused": "{status_icon} {title}",
-    "max-length": 35,
+    "max-length": 40,
+    "min-length": 15,
 
     "player-icons": {
       "spotify": "",
@@ -245,5 +252,12 @@
     "interval": 2,
     "on-click": "~/.local/bin/waybar-swayidle toggle",
     "tooltip": true,
+  },
+  "custom/pomotui": {
+    "exec": "pomotui waybar",
+    "interval": 1,
+    "return-type": "json",
+    "tooltip": true,
+    "on-click": "foot pomotui-tui",
   },
 }
