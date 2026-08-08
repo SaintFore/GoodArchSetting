@@ -19,7 +19,12 @@ vim.keymap.set("n", "<leader>im", function()
 
   -- 逻辑判断：
   -- 如果当前文件本身就是图片（以 png, jpg, webp 等结尾），直接开看
-  if current_file:match("%.png$") or current_file:match("%.jpg$") or current_file:match("%.webp$") then
+  if
+    current_file:match("%.png$")
+    or current_file:match("%.jpg$")
+    or current_file:match("%.webp$")
+    or current_file:match("%.gif$")
+  then
     target = current_file
   else
     -- 否则，我们认为你在代码里，尝试寻找光标下的路径
