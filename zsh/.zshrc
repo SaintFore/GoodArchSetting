@@ -203,3 +203,5 @@ export TODO_FILE="$TODO_DIR/todo.txt"
 export DONE_FILE="$TODO_DIR/done.txt"
 
 export SCIKIT_LEARN_DATA="$HOME/.cache/scikit-learn"
+
+export LS_COLORS="$(vivid generate tokyonight-night)"
