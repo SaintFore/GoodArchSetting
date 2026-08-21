@@ -48,7 +48,7 @@ El repositorio actualmente gira en torno a estos componentes:
 | Shell                                | Zsh + Zim, Fzf, Zoxide, Eza                                               |
 | Contabilidad                         | Hledger                                                                   |
 | Flujo de archivos y documentos       | Yazi, Zathura, Imv, Mpv                                                   |
-| Listas de paquetes                   | `pac.txt` para paquetes oficiales de Arch, `aur.txt` para paquetes de AUR |
+| Listas de paquetes                   | `pac.txt` para la base oficial, `aur.txt` para AUR y `game.txt` para juegos/hardware opcionales |
 
 Las menciones antiguas a Hyprland, Alacritty, Kitty o Fish no forman parte de la configuración actual, salvo que se vuelvan a añadir sus directorios de configuración.
 
@@ -57,6 +57,7 @@ Las menciones antiguas a Hyprland, Alacritty, Kitty o Fish no forman parte de la
 ```txt
 .
 ├── aur.txt                         # Lista de paquetes AUR
+├── game.txt                        # Lista opcional de juegos y paquetes Intel/NVIDIA
 ├── pac.txt                         # Lista de paquetes oficiales de Arch
 ├── hyprlock/.config/hypr/          # Configuración de Hyprlock
 ├── keyd/etc/keyd/                  # Configuración de reasignación de teclado con keyd
@@ -87,6 +88,12 @@ Instala los paquetes oficiales de Arch:
 
 ```bash
 sudo pacman -Syu --needed - < pac.txt
+```
+
+En un equipo para juegos, instala opcionalmente el conjunto Intel/NVIDIA y Steam:
+
+```bash
+sudo pacman -Syu --needed - < game.txt
 ```
 
 Si `pacman` pregunta qué paquete `tesseract-data` instalar, elige `eng` (actualmente la opción **30**). Es una dependencia necesaria para el flujo de PDF con Zathura. Puedes inspeccionarla después con:
@@ -296,31 +303,34 @@ Mako también reproduce un sonido de notificación de `ocean-sound-theme`, inclu
 
 ## Notas de hardware
 
-`pac.txt` está orientado actualmente a Intel:
+Los paquetes Intel/NVIDIA y el conjunto de Steam están en la lista opcional `game.txt`:
 
 ```txt
 intel-ucode
 intel-media-driver
 vulkan-intel
+nvidia-open
+libva-nvidia-driver
+steam
 ```
 
-Para máquinas AMD o Nvidia, reemplaza o amplía los paquetes de hardware según sea necesario. Evita mezclar paquetes específicos de hardware en la base compartida si no todos los equipos objetivo los necesitan.
+Una CPU Intel normalmente sigue necesitando `intel-ucode` aunque se utilice una GPU NVIDIA. Los controladores gráficos Intel solo son necesarios si la GPU Intel permanece en uso. Elige los paquetes adecuados para cada equipo.
 
 ## Actualizar las listas de paquetes
 
 Paquetes oficiales:
 
 ```bash
-pacman -Qqen > pac.txt
+pacman -Qqen > /tmp/pac-explicit.txt
 ```
 
 Paquetes AUR:
 
 ```bash
-pacman -Qqem > aur.txt
+pacman -Qqem > /tmp/aur-explicit.txt
 ```
 
-Advertencia: `pacman -Qqen` solo exporta paquetes oficiales instalados explícitamente. Si una herramienta se instaló solo como dependencia pero es necesaria para este flujo de dotfiles, añádela manualmente a `pac.txt` o márcala como explícita:
+Advertencia: compara estas instantáneas temporales con las tres listas seleccionadas en vez de sobrescribirlas. `pacman -Qqen` mezcla paquetes base, juegos, hardware y aplicaciones no relacionadas, y solo exporta paquetes oficiales instalados explícitamente. Si una herramienta se instaló solo como dependencia pero es necesaria para este flujo de dotfiles, añádela manualmente a `pac.txt` o márcala como explícita:
 
 ```bash
 sudo pacman -D --asexplicit ripgrep
