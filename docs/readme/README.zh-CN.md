@@ -42,7 +42,7 @@
 | Shell              | Zsh + Zim, Fzf, Zoxide, Eza                                |
 | 记账               | Hledger                                                    |
 | 文件和文档工作流   | Yazi, Zathura, Imv, Mpv                                    |
-| 包清单             | `pac.txt` 用于 Arch 官方仓库包，`aur.txt` 用于 AUR 包      |
+| 包清单             | `pac.txt` 用于官方仓库基础包，`aur.txt` 用于 AUR 包，`game.txt` 用于可选游戏和硬件包 |
 
 旧 README 中关于 Hyprland、Alacritty、Kitty 或 Fish 的描述不代表当前配置，除非之后重新加入对应配置目录。
 
@@ -51,6 +51,7 @@
 ```txt
 .
 ├── aur.txt                         # AUR 包清单
+├── game.txt                        # 可选游戏及 Intel/NVIDIA 包清单
 ├── pac.txt                         # Arch 官方仓库包清单
 ├── hyprlock/.config/hypr/          # Hyprlock 配置
 ├── keyd/etc/keyd/                  # keyd 键盘重映射配置
@@ -81,6 +82,12 @@ cd ~/.dotfiles
 
 ```bash
 sudo pacman -Syu --needed - < pac.txt
+```
+
+游戏设备可按需安装 Intel/NVIDIA 与 Steam 软件栈：
+
+```bash
+sudo pacman -Syu --needed - < game.txt
 ```
 
 如果 `pacman` 提示选择 `tesseract-data`，选择 `eng`（当前提示中是 **30**）。这是 Zathura PDF 工作流需要的依赖。之后可以用下面的命令查看依赖信息：
@@ -290,31 +297,34 @@ Mako 还会播放来自 `ocean-sound-theme` 的通知音效，该包已包含在
 
 ## 硬件说明
 
-`pac.txt` 当前偏向 Intel 硬件：
+Intel/NVIDIA 硬件包和 Steam 游戏栈统一放在可选的 `game.txt` 中：
 
 ```txt
 intel-ucode
 intel-media-driver
 vulkan-intel
+nvidia-open
+libva-nvidia-driver
+steam
 ```
 
-如果目标机器是 AMD 或 Nvidia，请按需要替换或扩展硬件包。不要把并非所有目标机器都需要的硬件专用包混进共享基础清单。
+即使使用 NVIDIA 显卡，只要 CPU 是 Intel，通常仍然需要 `intel-ucode`；只有继续使用 Intel 核显时才需要 Intel 图形驱动。请根据设备选择 `game.txt` 中的包，不必整份全部安装。
 
 ## 更新包清单
 
 官方仓库包：
 
 ```bash
-pacman -Qqen > pac.txt
+pacman -Qqen > /tmp/pac-explicit.txt
 ```
 
 AUR 包：
 
 ```bash
-pacman -Qqem > aur.txt
+pacman -Qqem > /tmp/aur-explicit.txt
 ```
 
-注意：`pacman -Qqen` 只导出“官方仓库 + 显式安装”的包。如果某个工具只是作为依赖安装，但它对这个 dotfiles 工作流是必需的，就需要手动加入 `pac.txt`，或者把它标记为显式安装：
+注意：请将临时快照与三个整理后的清单进行比较，不要直接覆盖清单。`pacman -Qqen` 会把基础包、游戏包、硬件专用包和无关应用混在一起，而且只导出“官方仓库 + 显式安装”的包。如果某个工具只是作为依赖安装，但它对这个 dotfiles 工作流是必需的，就需要手动加入 `pac.txt`，或者把它标记为显式安装：
 
 ```bash
 sudo pacman -D --asexplicit ripgrep

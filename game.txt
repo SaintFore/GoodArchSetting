@@ -1,0 +1,12 @@
+antimicrox
+cuda
+gamemode
+intel-media-driver
+intel-ucode
+lib32-gamemode
+lib32-mangohud
+libva-nvidia-driver
+mangohud
+nvidia-open
+steam
+vulkan-intel

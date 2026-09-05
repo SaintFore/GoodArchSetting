@@ -48,7 +48,7 @@ Niri ベースの Wayland ワークステーション向けの個人用 Arch Lin
 | シェル                       | Zsh + Zim, Fzf, Zoxide, Eza                                       |
 | 家計管理                     | Hledger                                                           |
 | ファイルと文書のワークフロー | Yazi, Zathura, Imv, Mpv                                           |
-| パッケージリスト             | `pac.txt` は Arch 公式パッケージ用、`aur.txt` は AUR パッケージ用 |
+| パッケージリスト             | `pac.txt` は公式ベース、`aur.txt` は AUR、`game.txt` は任意のゲーム・ハードウェア用 |
 
 古い README にある Hyprland、Alacritty、Kitty、Fish への言及は、対応する設定ディレクトリを再追加しない限り、現在の構成には含まれません。
 
@@ -57,6 +57,7 @@ Niri ベースの Wayland ワークステーション向けの個人用 Arch Lin
 ```txt
 .
 ├── aur.txt                         # AUR パッケージリスト
+├── game.txt                        # 任意のゲームおよび Intel/NVIDIA パッケージ
 ├── pac.txt                         # Arch 公式パッケージリスト
 ├── hyprlock/.config/hypr/          # Hyprlock 設定
 ├── keyd/etc/keyd/                  # keyd のキーボードリマップ設定
@@ -87,6 +88,12 @@ Arch 公式パッケージをインストールします。
 
 ```bash
 sudo pacman -Syu --needed - < pac.txt
+```
+
+ゲーム用マシンでは、Intel/NVIDIA と Steam の構成を必要に応じてインストールします。
+
+```bash
+sudo pacman -Syu --needed - < game.txt
 ```
 
 `pacman` がインストールする `tesseract-data` パッケージを尋ねた場合は、`eng`（現在のプロンプトでは **30**）を選びます。これは Zathura の PDF ワークフローで必要な依存関係です。後から確認するには次を実行します。
@@ -296,31 +303,34 @@ Mako は `ocean-sound-theme` の通知音も再生します。このパッケー
 
 ## ハードウェアに関するメモ
 
-`pac.txt` は現在 Intel 向けです。
+Intel/NVIDIA ハードウェアパッケージと Steam のゲーム構成は、任意の `game.txt` にまとめています。
 
 ```txt
 intel-ucode
 intel-media-driver
 vulkan-intel
+nvidia-open
+libva-nvidia-driver
+steam
 ```
 
-AMD または Nvidia のマシンでは、必要に応じてハードウェア関連パッケージを置き換えるか追加してください。すべての対象マシンで必要ではないハードウェア専用パッケージは、共有ベースラインに混ぜない方針です。
+NVIDIA GPU を使用していても、Intel CPU には通常 `intel-ucode` が必要です。Intel のグラフィックスドライバは Intel GPU を実際に使用する場合にだけ必要です。各マシンに合うパッケージを選択してください。
 
 ## パッケージリストの更新
 
 公式パッケージ：
 
 ```bash
-pacman -Qqen > pac.txt
+pacman -Qqen > /tmp/pac-explicit.txt
 ```
 
 AUR パッケージ：
 
 ```bash
-pacman -Qqem > aur.txt
+pacman -Qqem > /tmp/aur-explicit.txt
 ```
 
-注意：`pacman -Qqen` は公式リポジトリ由来で明示的にインストールされたパッケージだけを出力します。依存関係として入っただけのツールでも、この dotfiles ワークフローに必要なら、手動で `pac.txt` に追加するか、明示インストール扱いに変更してください。
+注意：整理済みの三つのリストを上書きせず、一時スナップショットと比較してください。`pacman -Qqen` はベース、ゲーム、ハードウェア固有、無関係なアプリを混在させ、公式リポジトリから明示的にインストールされたパッケージだけを出力します。依存関係として入っただけのツールでも、この dotfiles ワークフローに必要なら、手動で `pac.txt` に追加するか、明示インストール扱いに変更してください。
 
 ```bash
 sudo pacman -D --asexplicit ripgrep

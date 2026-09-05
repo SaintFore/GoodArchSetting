@@ -48,7 +48,7 @@ The repository currently centers on these components:
 | Overview                       | Fastfetch                                                        |
 | Accounting                      | Hledger                                                          |
 | File and document workflow      | Yazi, Zathura, Imv, Mpv                                          |
-| Package lists                   | `pac.txt` for official Arch packages, `aur.txt` for AUR packages |
+| Package lists                   | `pac.txt` for the official baseline, `aur.txt` for AUR packages, `game.txt` for optional gaming/hardware packages |
 
 Old README references to Hyprland, Alacritty, Kitty, or Fish are intentionally not part of the current setup unless the corresponding config directories are added back.
 
@@ -57,6 +57,7 @@ Old README references to Hyprland, Alacritty, Kitty, or Fish are intentionally n
 ```txt
 .
 ├── aur.txt                         # AUR package list
+├── game.txt                        # Optional gaming and Intel/NVIDIA package list
 ├── pac.txt                         # Official Arch package list
 ├── hyprlock/.config/hypr/          # Hyprlock config
 ├── keyd/etc/keyd/                  # keyd keyboard remapping config
@@ -87,6 +88,12 @@ Install the official Arch packages:
 
 ```bash
 sudo pacman -Syu --needed - < pac.txt
+```
+
+On a gaming machine, optionally install the Intel/NVIDIA and Steam stack:
+
+```bash
+sudo pacman -Syu --needed - < game.txt
 ```
 
 If `pacman` asks which `tesseract-data` package to install, choose `eng` (currently option **30**). This dependency is needed by the Zathura PDF workflow. You can inspect it later with:
@@ -296,31 +303,34 @@ Mako also plays a notification sound from `ocean-sound-theme`, which is included
 
 ## Hardware notes
 
-`pac.txt` is currently Intel-oriented:
+Hardware-specific Intel/NVIDIA packages and the Steam gaming stack are kept in the optional `game.txt` list:
 
 ```txt
 intel-ucode
 intel-media-driver
 vulkan-intel
+nvidia-open
+libva-nvidia-driver
+steam
 ```
 
-For AMD or Nvidia machines, replace or extend the hardware packages as needed. Keep hardware-specific packages out of the shared baseline unless every target machine needs them.
+An Intel CPU still normally needs `intel-ucode` when the machine uses an NVIDIA GPU. Intel graphics packages are only needed when the Intel GPU remains in use. Choose the appropriate packages for the machine instead of assuming that every entry in `game.txt` is required.
 
 ## Updating package lists
 
 Official packages:
 
 ```bash
-pacman -Qqen > pac.txt
+pacman -Qqen > /tmp/pac-explicit.txt
 ```
 
 AUR packages:
 
 ```bash
-pacman -Qqem > aur.txt
+pacman -Qqem > /tmp/aur-explicit.txt
 ```
 
-Caution: `pacman -Qqen` only exports official packages that are explicitly installed. If a tool is installed only as a dependency but is required for this dotfiles workflow, add it to `pac.txt` manually or mark it explicit:
+Caution: compare these temporary snapshots with the three curated lists instead of overwriting them. `pacman -Qqen` mixes baseline, gaming, hardware-specific, and unrelated applications together. It also only exports official packages that are explicitly installed. If a tool is installed only as a dependency but is required for this dotfiles workflow, add it to `pac.txt` manually or mark it explicit:
 
 ```bash
 sudo pacman -D --asexplicit ripgrep
