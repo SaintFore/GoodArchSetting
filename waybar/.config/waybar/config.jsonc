@@ -13,9 +13,10 @@
     "custom/pomotui",
   ],
 
-  "modules-center": ["niri/window", "custom/swayidle"],
+  "modules-center": ["niri/window"],
 
   "modules-right": [
+    "custom/swayidle",
     "privacy",
     "idle_inhibitor",
     "pulseaudio",
