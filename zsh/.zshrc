@@ -160,7 +160,22 @@ unset __mamba_setup
 # <<< mamba initialize <<<
 
 export NVM_DIR="$HOME/.nvm"
-source /usr/share/nvm/nvm.sh
+# nvm 0.40.7 cannot resolve aliases in zsh when EXTENDED_GLOB is enabled.
+# Disable it only while loading/calling nvm, preserving Zim's global setting.
+if [[ -o EXTENDED_GLOB ]]; then
+  unsetopt EXTENDED_GLOB
+  source /usr/share/nvm/nvm.sh
+  setopt EXTENDED_GLOB
+else
+  source /usr/share/nvm/nvm.sh
+fi
+
+functions[_nvm_without_extended_glob]=$functions[nvm]
+nvm() {
+  setopt LOCAL_OPTIONS
+  unsetopt EXTENDED_GLOB
+  _nvm_without_extended_glob "$@"
+}
 
 # llm api
 # for claude code
