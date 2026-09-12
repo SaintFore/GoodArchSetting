@@ -37,8 +37,16 @@ require_command notify-send
 
 mkdir -p "$(dirname "$out")"
 
+# 默认普通 clipboard
+clipboard_args=()
+
+# 传 primary 时读取 primary selection
+if [[ "${1:-}" == "primary" ]]; then
+  clipboard_args=(--primary)
+fi
+
 src="$(
-  wl-paste --no-newline |
+  wl-paste "${clipboard_args[@]}" --no-newline |
     tr '\r\n\t' '   ' |
     sed -E 's/[[:space:]]+/ /g; s/^ //; s/ $//'
 )"
