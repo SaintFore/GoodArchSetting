@@ -209,10 +209,10 @@ alias la="eza -la"
 alias tree="eza --tree"
 
 # hledger
-export LEDGER_FILE="$HOME/Documents/hledger/main.journal"
+export LEDGER_FILE="$HOME/Documents/continue/hledger/main.journal"
 
 # tuxedo
-export TODO_DIR="$HOME/Documents/todo"
+export TODO_DIR="$HOME/Documents/continue/todo"
 export TODO_FILE="$TODO_DIR/todo.txt"
 export DONE_FILE="$TODO_DIR/done.txt"
 
