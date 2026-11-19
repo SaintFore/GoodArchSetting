@@ -1,0 +1,264 @@
+// -*- mode: jsonc -*-
+{
+  "layer": "top",
+  "position": "top",
+  "height": 34,
+  "spacing": 2,
+
+  "modules-left": [
+    "niri/workspaces",
+    "mpris",
+    "custom/pomotui",
+  ],
+
+  "modules-center": ["niri/window"],
+
+  "modules-right": [
+    "custom/swayidle",
+    "privacy",
+    "idle_inhibitor",
+    "pulseaudio",
+    "bluetooth",
+    "network",
+    "power-profiles-daemon",
+    "cpu",
+    "memory",
+    "temperature",
+    "backlight",
+    "niri/language",
+    "battery",
+    "clock",
+    "tray",
+    "custom/power",
+  ],
+
+  "niri/workspaces": {
+    "all-outputs": false,
+    "disable-scroll": false,
+  },
+
+  "niri/window": {
+    "format": "{}",
+    "max-length": 30,
+    "separate-outputs": true,
+  },
+
+  "niri/mode": {
+    "format": "<span style=\"italic\">{}</span>",
+  },
+
+  "niri/scratchpad": {
+    "format": "{icon} {count}",
+    "show-empty": false,
+    "format-icons": ["", ""],
+    "tooltip": true,
+    "tooltip-format": "{app}: {title}",
+  },
+
+  "mpris": {
+    "format": "{player_icon} {title}",
+    "format-paused": "{status_icon} {title}",
+    "max-length": 40,
+    "min-length": 15,
+
+    "player-icons": {
+      "spotify": "",
+      "firefox": "󰈹",
+      "chromium": "",
+      "default": "󰎈",
+    },
+
+    "status-icons": {
+      "playing": "",
+      "paused": "",
+    },
+
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next",
+    "on-scroll-up": "playerctl previous",
+    "on-scroll-down": "playerctl next",
+  },
+
+  "privacy": {
+    "icon-spacing": 4,
+    "icon-size": 16,
+    "transition-duration": 200,
+    "modules": [
+      {
+        "type": "screenshare",
+        "tooltip": true,
+        "tooltip-icon-size": 20,
+      },
+      {
+        "type": "audio-in",
+        "tooltip": true,
+        "tooltip-icon-size": 20,
+      },
+    ],
+  },
+
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": "",
+    },
+    "tooltip-format-activated": "禁止自动休眠",
+    "tooltip-format-deactivated": "允许自动休眠",
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-bluetooth": " {icon} {volume}%",
+    "format-muted": "󰝟",
+    "format-bluetooth-muted": " 󰝟",
+    "format-icons": {
+      "headphone": "",
+      "headset": "󰋎",
+      "hands-free": "󰋎",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""],
+    },
+    "scroll-step": 2,
+    "on-click": "pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "tooltip-format": "{desc}\n音量：{volume}%",
+  },
+
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "󰂲",
+    "format-off": "󰂲",
+    "format-on": "",
+    "format-connected": " {num_connections}",
+    "tooltip-format": "蓝牙：{status}",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "on-click": "blueman-manager",
+  },
+
+  "network": {
+    "format-wifi": " {signalStrength}%",
+    "format-ethernet": "󰈀",
+    "format-linked": "󰈀 ?",
+    "format-disconnected": "󰖪",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+    "tooltip-format": "{ifname}\n{essid}\n{ipaddr}/{cidr}\nGateway: {gwaddr}",
+    "tooltip-format-disconnected": "网络未连接",
+    "on-click": "nm-connection-editor",
+  },
+
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip": true,
+    "tooltip-format": "电源模式：{profile}",
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": "",
+    },
+  },
+
+  "cpu": {
+    "format": " {usage}%",
+    "interval": 2,
+    "tooltip": false,
+  },
+
+  "memory": {
+    "format": " {percentage}%",
+    "interval": 2,
+    "tooltip-format": "已使用：{used:0.1f} GiB\n总内存：{total:0.1f} GiB",
+  },
+
+  "temperature": {
+    "critical-threshold": 80,
+    "format": " {temperatureC}°",
+    "format-critical": " {temperatureC}°",
+    "tooltip-format": "{temperatureC}°C",
+  },
+
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": ["", "", "", "", "", "", "", "", ""],
+    "scroll-step": 5,
+    "on-scroll-up": "brightnessctl set 5%+",
+    "on-scroll-down": "brightnessctl set 5%-",
+    "tooltip-format": "亮度：{percent}%",
+  },
+
+  "niri/language": {
+    "format": "{}",
+    "tooltip": false,
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15,
+    },
+    "format": "{icon} {capacity}%",
+    "format-full": " {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-alt": "{icon} {time}",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "{capacity}%\n剩余时间：{timeTo}",
+  },
+
+  "clock": {
+    "format": " {:%H:%M}",
+    "format-alt": "󰃭 {:%Y-%m-%d}",
+    "tooltip-format": "<big>{:%Y 年 %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color=\"#89b4fa\"><b>{}</b></span>",
+        "days": "<span color=\"#cdd6f4\">{}</span>",
+        "weeks": "<span color=\"#9399b2\">W{}</span>",
+        "weekdays": "<span color=\"#f9e2af\"><b>{}</b></span>",
+        "today": "<span color=\"#f38ba8\"><b><u>{}</u></b></span>",
+      },
+    },
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8,
+  },
+
+  "custom/power": {
+    "format": "",
+    "tooltip": false,
+    "menu": "on-click",
+    "menu-file": "$HOME/.config/waybar/power_menu.xml",
+    "menu-actions": {
+      "shutdown": "systemctl poweroff",
+      "reboot": "systemctl reboot",
+      "suspend": "systemctl suspend",
+      "hibernate": "systemctl hibernate",
+    },
+  },
+
+  "custom/swayidle": {
+    "exec": "~/.local/bin/waybar-swayidle",
+    "return-type": "json",
+    "interval": 2,
+    "on-click": "~/.local/bin/waybar-swayidle toggle",
+    "tooltip": true,
+  },
+  "custom/pomotui": {
+    "align": 0.5,
+    "justify": "center",
+    "exec": "pomotui waybar",
+    "interval": 1,
+    "return-type": "json",
+    "tooltip": true,
+    "on-click": "foot pomotui-tui",
+  },
+}

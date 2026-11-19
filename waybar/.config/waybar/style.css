@@ -100,6 +100,11 @@ button:hover {
     color 150ms ease;
 }
 
+/* 新版 niri 将标签放进横向 box，标签需占满按钮的最小内容宽度。 */
+#workspaces button label {
+  min-width: 22px;
+}
+
 #workspaces button:hover {
   background: @module-hover;
   color: @text;
