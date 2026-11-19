@@ -1,11 +1,11 @@
-// 共用模块配置在 common.jsonc；竖屏使用独立的紧凑布局。
 [
   {
-    "output": ["!eDP-1", "*"],
-    "include": ["~/.config/waybar/common.jsonc"],
+    "name": "full",
+    "output": ["*"],
+    "include": ["~/.config/waybar/common.jsonc"]
   },
   {
-    "output": "eDP-1",
+    "output": [],
     "name": "compact",
     "include": ["~/.config/waybar/common.jsonc"],
     "modules-left": ["niri/workspaces", "custom/pomotui"],
@@ -17,9 +17,8 @@
       "battery",
       "clock",
       "tray",
-      "custom/power",
+      "custom/power"
     ],
-    // 切换网络格式时也限制长度，避免 IP 地址再次挤出模块。
-    "network": {"max-length": 12},
-  },
+    "network": {"max-length": 12}
+  }
 ]
