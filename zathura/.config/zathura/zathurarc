@@ -14,6 +14,9 @@ set adjust-open width
 set scroll-step 300
 
 # 样式美化（类似 Gruvbox/Dark 风格）
+set recolor true
+set recolor-lightcolor "#1e1e2e"
+set recolor-darkcolor "#cdd6f4"
 set default-bg                  "#282828"
 set default-fg                  "#ebdbb2"
 set statusbar-bg                "#504945"
